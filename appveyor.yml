@@ -61,7 +61,6 @@ build_script:
 - cmd: dir /b /a-d "*.whl" >WheelFile.txt & set /p _wheel= < WheelFile.txt
 - cmd: pip install %_wheel%
 # Disable the test temporarily for 1.0.1 as data updated
-- cmd: pytest
 
 artifacts:
   - path: 'onnx\*.whl'
