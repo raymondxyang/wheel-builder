@@ -1,7 +1,7 @@
 env:
   global:
     - REPO_DIR=onnx
-    - BUILD_COMMIT=f8aa447431fbb9bb49d41b715d79775d91f24f3c
+    - BUILD_COMMIT=3ca20e6993e620cae605adb3afda47fc0d9a901d
     - PLAT=x86_64
     - PB_VERSION=2.6.1
     - UNICODE_WIDTH=32
@@ -117,6 +117,12 @@ install:
 
 script:
   - install_run $PLAT
+
+addons:
+  artifacts:
+    s3_region: "us-west-1"
+    paths:
+    - $(ls ${TRAVIS_BUILD_DIR}/wheelhouse/*.whl | tr "\n" ":")
 
 after_success:
 - >
