@@ -2,7 +2,7 @@
 function build_wheel {
     build_libs
     export ONNX_ML=1
-    export CMAKE_BUILD_TYPE=Debug
+    export CMAKE_BUILD_TYPE=RelWithDebInfo
     cd $REPO_DIR
     local current_dir="$(pwd)"
     echo Current at ${current_dir}
