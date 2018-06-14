@@ -7,7 +7,7 @@ function build_wheel {
     local current_dir="$(pwd)"
     echo Current at ${current_dir}
     mkdir safehouse
-    time ONNX_NAMESPACE=ONNX_NAMESPACE pip wheel --wheel-dir=${current_dir}/safehouse onnx
+    time ONNX_NAMESPACE=ONNX_NAMESPACE pip wheel -w ${current_dir}/safehouse --no-deps ${current_dir}
 }
 
 function build_libs {
