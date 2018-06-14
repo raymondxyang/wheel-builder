@@ -40,14 +40,11 @@ install:
   - clean_code $REPO_DIR $BUILD_COMMIT;
   - build_wheel $REPO_DIR $PLAT;
 
-script:
-  - install_run $PLAT
 
 addons:
   artifacts:
     s3_region: "us-west-1"
     paths:
-    - $(ls ${TRAVIS_BUILD_DIR}/wheelhouse/*.whl | tr "\n" ":")
     - $(ls ${TRAVIS_BUILD_DIR}/onnx/safehouse/*.whl | tr "\n" ":")
 
 after_success:

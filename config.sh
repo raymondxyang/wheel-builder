@@ -8,7 +8,6 @@ function build_wheel {
     echo Current at ${current_dir}
     mkdir safehouse
     python setup.py bdist_wheel --universal --dist-dir ${current_dir}/safehouse
-    time ONNX_NAMESPACE=ONNX_NAMESPACE build_bdist_wheel $@
 
 }
 
@@ -59,11 +58,5 @@ function build_libs {
 }
 
 function run_tests {
-    cd ..
-    local wkdir_path="$(pwd)"
-    echo Running tests at root path: ${wkdir_path}
-    cd ${wkdir_path}/onnx
-    pip install tornado==4.5.3
-    pip install pytest-cov nbval
-    pytest
+   echo no testing
 }
