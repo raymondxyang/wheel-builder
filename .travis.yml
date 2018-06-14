@@ -41,7 +41,7 @@ install:
   - build_wheel $REPO_DIR $PLAT;
 
 script:
-  - sudo yum install tree -y
+  - sudo apt-get install -y tree
   - tree ${TRAVIS_BUILD_DIR}
 
 addons:
