@@ -41,8 +41,7 @@ install:
   - build_wheel $REPO_DIR $PLAT;
 
 script:
-  - sudo apt-get install -y tree
-  - tree ${TRAVIS_BUILD_DIR}
+  - echo finished
 
 addons:
   artifacts:
