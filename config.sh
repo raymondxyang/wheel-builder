@@ -3,7 +3,13 @@ function build_wheel {
     build_libs
     export ONNX_ML=1
     export CMAKE_BUILD_TYPE=Debug
+    cd $REPO_DIR
+    local current_dir="$(pwd)"
+    echo Current at ${current_dir}
+    mkdir safehouse
+    python setup.py bdist_wheel --universal --dist-dir ${current_dir}/safehouse
     time ONNX_NAMESPACE=ONNX_NAMESPACE build_bdist_wheel $@
+
 }
 
 function build_libs {

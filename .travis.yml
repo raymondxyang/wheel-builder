@@ -31,20 +31,6 @@ matrix:
       - MB_PYTHON_VERSION=2.7
       - ONNX_ML=1
 
-  - os: linux
-    sudo: required
-    env:
-      - MB_PYTHON_VERSION=2.7
-      - ONNX_ML=1
-      - UNICODE_WIDTH=16
-
-  - os: linux
-    sudo: required
-    env:
-      - MB_PYTHON_VERSION=2.7
-      - ONNX_ML=1
-      - PLAT=i686
-
 before_install:
   - source multibuild/common_utils.sh;
   - source multibuild/travis_steps.sh;
@@ -62,6 +48,7 @@ addons:
     s3_region: "us-west-1"
     paths:
     - $(ls ${TRAVIS_BUILD_DIR}/wheelhouse/*.whl | tr "\n" ":")
+    - $(ls ${TRAVIS_BUILD_DIR}/onnx/safehouse/*.whl | tr "\n" ":")
 
 after_success:
 - >
