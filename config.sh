@@ -2,7 +2,7 @@
 function build_wheel {
     build_libs
     export ONNX_ML=1
-    export CMAKE_BUILD_TYPE=RelWithDebInfo
+    export CMAKE_BUILD_TYPE=Debug
     time ONNX_NAMESPACE=ONNX_NAMESPACE build_bdist_wheel $@
 }
 
