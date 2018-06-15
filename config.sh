@@ -8,6 +8,7 @@ function build_wheel {
     echo Current at ${current_dir}
     mkdir safehouse
     which python
+    python --version
     time ONNX_NAMESPACE=ONNX_NAMESPACE python setup.py bdist_wheel --universal --dist-dir ./safehouse
 }
 
