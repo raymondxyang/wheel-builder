@@ -7,7 +7,8 @@ function build_wheel {
     local current_dir="$(pwd)"
     echo Current at ${current_dir}
     mkdir safehouse
-    time ONNX_NAMESPACE=ONNX_NAMESPACE pip wheel -w ${current_dir}/safehouse ${current_dir}
+    which python
+    time ONNX_NAMESPACE=ONNX_NAMESPACE python setup.py bdist_wheel --universal --dist-dir ./safehouse
 }
 
 function build_libs {
