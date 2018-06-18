@@ -1,6 +1,6 @@
 [submodule "onnx"]
 	path = onnx
-	url = https://github.com/onnx/onnx
+	url = https://github.com/raymondxyang/onnx
 [submodule "multibuild"]
 	path = multibuild
 	url = https://github.com/matthew-brett/multibuild
