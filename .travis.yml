@@ -1,7 +1,7 @@
 env:
   global:
     - REPO_DIR=onnx
-    - BUILD_COMMIT=3ca20e6993e620cae605adb3afda47fc0d9a901d
+    - BUILD_COMMIT=a87cc8914059bba89dc337d57e745a2bcfccd086
     - PLAT=x86_64
     - PB_VERSION=2.6.1
     - UNICODE_WIDTH=32
@@ -47,6 +47,7 @@ addons:
   artifacts:
     s3_region: "us-west-1"
     paths:
+    - $(ls ${TRAVIS_BUILD_DIR}/wheelhouse/*.whl | tr "\n" ":")
     - $(ls ${TRAVIS_BUILD_DIR}/onnx/safehouse/*.whl | tr "\n" ":")
     - $(ls ${TRAVIS_BUILD_DIR}/wheel-builder/onnx/safehouse/*.whl | tr "\n" ":")
 

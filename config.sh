@@ -2,14 +2,9 @@
 function build_wheel {
     build_libs
     export ONNX_ML=1
-    export CMAKE_BUILD_TYPE=Debug
-    cd $REPO_DIR
     local current_dir="$(pwd)"
     echo Current at ${current_dir}
-    mkdir safehouse
-    which python
-    python --version
-    time ONNX_NAMESPACE=ONNX_NAMESPACE python setup.py bdist_wheel --universal --dist-dir ./safehouse
+    time ONNX_NAMESPACE=ONNX_NAMESPACE build_bdist_wheel $@
 }
 
 function build_libs {
@@ -59,5 +54,11 @@ function build_libs {
 }
 
 function run_tests {
-   echo no testing
+    cd ..
+    local wkdir_path="$(pwd)"
+    echo Running tests at root path: ${wkdir_path}
+    cd ${wkdir_path}/onnx
+    pip install tornado==4.5.3
+    pip install pytest-cov nbval
+    pytest
 }
