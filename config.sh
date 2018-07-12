@@ -15,10 +15,12 @@ function build_libs {
 
     if [ -z "$IS_OSX" ]; then
         APT_INSTALL_CMD='yum -y install'
-        curl -L -O https://people.centos.org/tru/devtoolset-3-rebuild/x86_64/RPMS/devtoolset-3-gcc-c++-4.9.2-6.el6.x86_64.rpm
-        curl -L -O https://people.centos.org/tru/devtoolset-3-rebuild/x86_64/RPMS/devtoolset-3-gcc-gfortran-4.9.2-6.el6.x86_64.rpm
-        yum install -y devtoolset-3-gcc-c++-4.9.2-6.el6.x86_64.rpm
-        yum install -y devtoolset-3-gcc-gfortran-4.9.2-6.el6.x86_64.rpm
+        yum install -y yum-utils
+        yumdownloader --urls https://people.centos.org/tru/devtoolset-3-rebuild/x86_64/RPMS/devtoolset-3-gcc-c++-4.9.2-6.el6.x86_64.rpm https://people.centos.org/tru/devtoolset-3-rebuild/x86_64/RPMS/devtoolset-3-gcc-gfortran-4.9.2-6.el6.x86_64.rpm
+        #curl -L -O https://people.centos.org/tru/devtoolset-3-rebuild/x86_64/RPMS/devtoolset-3-gcc-c++-4.9.2-6.el6.x86_64.rpm
+        #curl -L -O https://people.centos.org/tru/devtoolset-3-rebuild/x86_64/RPMS/devtoolset-3-gcc-gfortran-4.9.2-6.el6.x86_64.rpm
+        #yum install -y devtoolset-3-gcc-c++-4.9.2-6.el6.x86_64.rpm
+        #yum install -y devtoolset-3-gcc-gfortran-4.9.2-6.el6.x86_64.rpm
         scl enable devtoolset-3 bash
         gcc -v
         # Install protobuf
