@@ -30,11 +30,7 @@ function build_libs {
         tar -xzf protobuf-${PB_VERSION}.tar.gz -C "$pb_dir" --strip-components 1
         activate_ccache
         ccache -z
-        cd ${pb_dir} && ./configure > /dev/null
-        make -j${NUMCORES} > /dev/null
-        make check
-        make install > /dev/null
-        ldconfig 2>&1 || true
+        cd ${pb_dir} && ./configure && make -j${NUMCORES} && make check && make install && ldconfig 2>&1 || true
         ccache -s
         export PATH="/usr/lib/ccache:$PATH"
         which protoc
@@ -53,9 +49,8 @@ function build_libs {
        curl -L -O https://cmake.org/files/v3.9/cmake-3.9.2.tar.gz
        tar -xzf cmake-3.9.2.tar.gz -C "$cmake_dir" --strip-components 1
        cd ${cmake_dir} && ls ${cmake_dir}
-       ./configure --prefix=${cmake_dir}/build > /dev/null
-       make -j${NUMCORES} > /dev/null
-       make install > /dev/null
+       ./configure --prefix=${cmake_dir}/build
+       make -j${NUMCORES} && make install
        ${cmake_dir}/build/bin/cmake -version
        export PATH="${cmake_dir}/build/bin:$PATH"
     fi
