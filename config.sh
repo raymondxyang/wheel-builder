@@ -16,7 +16,7 @@ function build_libs {
     if [ -z "$IS_OSX" ]; then
         cwd_pb=$(pwd)
         curl -L -O https://github.com/squeaky-pl/centos-devtools/releases/download/6.3/gcc-6.3.0-binutils-2.27-x86_64.tar.bz2
-        tar -xzf gcc-6.3.0-binutils-2.27-x86_64.tar.bz2
+        tar -xjf gcc-6.3.0-binutils-2.27-x86_64.tar.bz2
         export PATH=/opt/devtools-6.3/bin:$PATH
         gcc -v
         # Install protobuf
