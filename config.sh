@@ -16,10 +16,10 @@ function build_libs {
     if [ -z "$IS_OSX" ]; then
         cwd_pb=$(pwd)
         cd /
-        curl --retry 3 --retry-delay 5 -L -O https://github.com/squeaky-pl/centos-devtools/releases/download/6.3/gcc-6.3.0-binutils-2.27-x86_64.tar.bz2
-        tar -xjf gcc-6.3.0-binutils-2.27-x86_64.tar.bz2
-        export PATH=/opt/devtools-6.3/bin:$PATH
-        export LD_LIBRARY_PATH="/opt/devtools-6.3/lib64:$LD_LIBRARY_PATH"
+        curl --retry 3 --retry-delay 5 -L -O https://github.com/squeaky-pl/centos-devtools/releases/download/6.2/gcc-6.2.0-binutils-2.27-x86_64.tar.bz2
+        tar -xjf gcc-6.2.0-binutils-2.27-x86_64.tar.bz2
+        export PATH=/opt/devtools-6.2/bin:$PATH
+        export LD_LIBRARY_PATH="/opt/devtools-6.2/lib64:$LD_LIBRARY_PATH"
         gcc -v
         # Install protobuf
         cd $cwd_pb
