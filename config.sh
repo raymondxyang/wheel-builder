@@ -2,8 +2,6 @@
 function build_wheel {
     build_libs
     export ONNX_ML=1
-    local current_dir="$(pwd)"
-    echo Current at ${current_dir}
     time ONNX_NAMESPACE=ONNX_NAMESPACE build_bdist_wheel $@
 }
 
@@ -16,12 +14,17 @@ function build_libs {
     echo Using $NUMCORES cores
 
     if [ -z "$IS_OSX" ]; then
-        APT_INSTALL_CMD='yum -y install'
+        cwd_pb=$(pwd)
+        curl -L -O https://github.com/squeaky-pl/centos-devtools/releases/download/6.3/gcc-6.3.0-binutils-2.27-x86_64.tar.bz2
+        tar -xjf gcc-6.3.0-binutils-2.27-x86_64.tar.bz2
+        export PATH=/opt/devtools-6.3/bin:$PATH
+        gcc -v
         # Install protobuf
+        cd $cwd_pb
         pb_dir="./cache/pb"
         PB_VERSION=2.6.1
         mkdir -p "$pb_dir"
-        curl -L -O https://github.com/google/protobuf/releases/download/v${PB_VERSION}/protobuf-${PB_VERSION}.tar.gz
+        curl --retry 3 --retry-delay 5 -L -O https://github.com/google/protobuf/releases/download/v${PB_VERSION}/protobuf-${PB_VERSION}.tar.gz
         tar -xzf protobuf-${PB_VERSION}.tar.gz -C "$pb_dir" --strip-components 1
         activate_ccache
         ccache -z

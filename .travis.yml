@@ -48,8 +48,6 @@ addons:
     s3_region: "us-west-1"
     paths:
     - $(ls ${TRAVIS_BUILD_DIR}/wheelhouse/*.whl | tr "\n" ":")
-    - $(ls ${TRAVIS_BUILD_DIR}/onnx/safehouse/*.whl | tr "\n" ":")
-    - $(ls ${TRAVIS_BUILD_DIR}/wheel-builder/onnx/safehouse/*.whl | tr "\n" ":")
 
 after_success:
 - >
