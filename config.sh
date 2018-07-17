@@ -50,7 +50,8 @@ function build_libs {
        tar -xzf cmake-3.9.2.tar.gz -C "$cmake_dir" --strip-components 1
        cd ${cmake_dir} && ls ${cmake_dir}
        ./configure --prefix=${cmake_dir}/build
-       make -j${NUMCORES} && make install
+       make -j${NUMCORES} > /dev/null
+       make install > /dev/null
        ${cmake_dir}/build/bin/cmake -version
        export PATH="${cmake_dir}/build/bin:$PATH"
     fi
