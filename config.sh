@@ -46,8 +46,8 @@ function build_libs {
     if [ -z "$IS_OSX" ]; then
        cmake_dir="${wkdir_path}/cmake"
        mkdir -p "$cmake_dir"
-       curl -L -O https://cmake.org/files/v3.10/cmake-3.10.2.tar.gz
-       tar -xzf cmake-3.10.2.tar.gz -C "$cmake_dir" --strip-components 1
+       curl -L -O https://cmake.org/files/v3.9/cmake-3.9.2.tar.gz
+       tar -xzf cmake-3.9.2.tar.gz -C "$cmake_dir" --strip-components 1
        cd ${cmake_dir} && ls ${cmake_dir}
        ./configure --prefix=${cmake_dir}/build
        make -j${NUMCORES} && make install
