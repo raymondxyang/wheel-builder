@@ -47,6 +47,7 @@ function build_libs {
        curl -L -O https://cmake.org/files/v3.10/cmake-3.10.2.tar.gz
        tar -xzf cmake-3.10.2.tar.gz -C "$cmake_dir" --strip-components 1
        cd ${cmake_dir} && ls ${cmake_dir}
+       export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/local/lib64:/usr/lib64
        ./configure --prefix=${cmake_dir}/build
        make -j${NUMCORES} && make install
        ${cmake_dir}/build/bin/cmake -version
