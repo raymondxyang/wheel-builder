@@ -45,7 +45,7 @@ function build_libs {
        cmake_dir="${wkdir_path}/cmake"
        mkdir -p "$cmake_dir"
        curl -L -O https://cmake.org/files/v3.10/cmake-3.10.2.tar.gz
-       tar -xzf cmake-3.1.2.tar.gz -C "$cmake_dir" --strip-components 1
+       tar -xzf cmake-3.10.2.tar.gz -C "$cmake_dir" --strip-components 1
        cd ${cmake_dir} && ls ${cmake_dir}
        ./configure --prefix=${cmake_dir}/build
        make -j${NUMCORES} && make install
