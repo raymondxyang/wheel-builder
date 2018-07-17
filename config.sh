@@ -14,16 +14,13 @@ function build_libs {
     echo Using $NUMCORES cores
 
     if [ -z "$IS_OSX" ]; then
-        APT_INSTALL_CMD='yum -y install'
-        yum install -y yum-utils
-        yumdownloader --urls https://people.centos.org/tru/devtoolset-3-rebuild/x86_64/RPMS/devtoolset-3-gcc-c++-4.9.2-6.el6.x86_64.rpm https://people.centos.org/tru/devtoolset-3-rebuild/x86_64/RPMS/devtoolset-3-gcc-gfortran-4.9.2-6.el6.x86_64.rpm
-        #curl -L -O https://people.centos.org/tru/devtoolset-3-rebuild/x86_64/RPMS/devtoolset-3-gcc-c++-4.9.2-6.el6.x86_64.rpm
-        #curl -L -O https://people.centos.org/tru/devtoolset-3-rebuild/x86_64/RPMS/devtoolset-3-gcc-gfortran-4.9.2-6.el6.x86_64.rpm
-        #yum install -y devtoolset-3-gcc-c++-4.9.2-6.el6.x86_64.rpm
-        #yum install -y devtoolset-3-gcc-gfortran-4.9.2-6.el6.x86_64.rpm
-        scl enable devtoolset-3 bash
+        cwd_pb=$(pwd)
+        curl -L -O https://github.com/squeaky-pl/centos-devtools/releases/download/6.3/gcc-6.3.0-binutils-2.27-x86_64.tar.bz2
+        tar -xzf gcc-6.3.0-binutils-2.27-x86_64.tar.bz2
+        export PATH=/opt/devtools-6.3/bin:$PATH
         gcc -v
         # Install protobuf
+        cd $cwd_pb
         pb_dir="./cache/pb"
         PB_VERSION=2.6.1
         mkdir -p "$pb_dir"
