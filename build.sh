@@ -32,7 +32,7 @@ if [[ ! -d "ONNX_DIR" ]]; then
       git checkout tags/v${ONNX_BUILD_VERSION}
   fi
 else
-  # the pytorch dir will already be cloned and checked-out on jenkins jobs
+  # the pyonnx dir will already be cloned and checked-out on jenkins jobs
   pushd $ONNX_DIR
 fi
 git submodule update --init --recursive
@@ -161,11 +161,11 @@ for whl in /$WHEELHOUSE_DIR/onnx*linux*.whl; do
     record_file=`echo $(basename $whl) | sed -e 's/-cp.*$/.dist-info\/RECORD/g'`
     echo "Generating new record file $record_file"
     rm -f $record_file
-    # generate records for torch folder
+    # generate records for onnx folder
     find onnx -type f | while read fname; do
 	echo $(make_wheel_record $fname) >>$record_file
     done
-    # generate records for torch-[version]-dist-info folder
+    # generate records for onnx-[version]-dist-info folder
     find onnx*dist-info -type f | while read fname; do
 	echo $(make_wheel_record $fname) >>$record_file
     done
@@ -189,12 +189,8 @@ mkdir -p /remote/$WHEELHOUSE_DIR
 cp /$WHEELHOUSE_DIR/onnx*.whl /remote/$WHEELHOUSE_DIR/
 
 
-# The package's name that we made could be torch-nightly
-if [[ -n "$ONNX_PACKAGE_NAME" ]]; then
-  package_name="$ONNX_PACKAGE_NAME"
-else
-  package_name='onnx'
-fi
+
+package_name='onnx'
 echo "Expecting the built wheels to be packages for '$package_name'"
 
 
