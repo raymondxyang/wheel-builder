@@ -19,7 +19,7 @@ RUN wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm &
 # Build protobuf
 RUN mkdir -p /usr/local/protobuf && \
     wget -qO- "https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.gz" | tar -xz -C /usr/local/protobuf --strip-components 1 && \
-    cd /usr/local/protobuf && ./configure && make check && make install && ldconfig
+    cd /usr/local/protobuf && ./configure && make && make check && make install && ldconfig
 
 
 # cmake
