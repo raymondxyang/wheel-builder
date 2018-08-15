@@ -22,9 +22,11 @@ for (( i=0; i<"${#DESIRED_PYTHON[@]}"; i++ )); do
     fi
   fi
 done
+unset 'DESIRED_PYTHON[${#DESIRED_PYTHON[@]}-1]'
 echo "Will build for all Pythons: ${DESIRED_PYTHON[@]}"
 
 ONNX_DIR="/onnx"
+ONNX_BUILD_VERSION="1.2.2"
 if [[ ! -d "ONNX_DIR" ]]; then
   git clone https://github.com/onnx/onnx $ONNX_DIR
   pushd $ONNX_DIR
@@ -42,11 +44,11 @@ for PYDIR in "${DESIRED_PYTHON[@]}"; do
     export PATH=$PYDIR/bin:$OLD_PATH
     python setup.py clean
     if [[ $PYDIR  == "/opt/python/cp37-cp37m" ]]; then
-	pip install numpy==1.15
+	break
     else
 	pip install numpy==1.11
     fi
-    time python setup.py bdist_wheel -d $WHEELHOUSE_DIR
+    time pip wheel --wheel-dir=$WHEELHOUSE_DIR .
 done
 
 popd
@@ -81,14 +83,15 @@ make_wheel_record() {
     fi
 }
 
-
+rm -rf /$WHEELHOUS_DIR || true
+rm -rf /tmp_dir || true
 mkdir -p /$WHEELHOUSE_DIR
 cp $ONNX_DIR/$WHEELHOUSE_DIR/*.whl /$WHEELHOUSE_DIR
 mkdir /tmp_dir
 pushd /tmp_dir
 
 DEPS_LIST=(
-    "/usr/local/protobuf/lib64/libprotobuf.so.9.0.1"
+    "/usr/local/lib/libprotobuf.so.9.0.1"
 )
 DEPS_SONAME=(
     "libprotobuf.so.9.0.1"
@@ -111,6 +114,7 @@ for whl in /$WHEELHOUSE_DIR/onnx*linux*.whl; do
 	filename=$(basename $filepath)
 	destpath=onnx/.lib/$filename
 	if [[ "$filepath" != "$destpath" ]]; then
+	    mkdir -p $destpath
 	    cp $filepath $destpath
 	fi
 
@@ -194,12 +198,3 @@ package_name='onnx'
 echo "Expecting the built wheels to be packages for '$package_name'"
 
 
-# Test that all the wheels work
-for PYDIR in "${DESIRED_PYTHON[@]}"; do
-    "${PYDIR}/bin/pip" uninstall -y "$package_name"
-    "${PYDIR}/bin/pip" install tornado==4.5.3 pytest-cov nbval
-    "${PYDIR}/bin/pip" install "$package_name" --no-index -f /$WHEELHOUSE_DIR
-    set +e
-    cd ONNX_DIR && pytest
-    set -e
-done
