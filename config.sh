@@ -4,6 +4,7 @@ function build_wheel {
     export ONNX_ML=1
     cd onnx
     time ONNX_NAMESPACE=ONNX_NAMESPACE pip_wheel_cmd  $@
+    cp /io/onnx/onnx/onnx*.whl /io/wheelhouse/
 }
 
 function build_libs {
