@@ -48,7 +48,9 @@ for PYDIR in "${DESIRED_PYTHON[@]}"; do
     else
 	pip install numpy==1.11
     fi
-    time pip wheel --wheel-dir=$WHEELHOUSE_DIR .
+    echo "building wheel for $PYDIR"
+    time python setup.py bdist_wheel -d $WHEELHOUSE_DIR > /dev/null 2>&1
+    echo "Finished building wheel for $PYDIR"
 done
 
 popd
@@ -112,9 +114,9 @@ for whl in /$WHEELHOUSE_DIR/onnx*linux*.whl; do
     for filepath in "${DEPS_LIST[@]}"
     do
 	filename=$(basename $filepath)
-	destpath=onnx/.lib/$filename
+	destpath=onnx/.libs/$filename
 	if [[ "$filepath" != "$destpath" ]]; then
-	    mkdir -p $destpath
+	    mkdir -p $(dirname $destpath)
 	    cp $filepath $destpath
 	fi
 
@@ -148,13 +150,13 @@ for whl in /$WHEELHOUSE_DIR/onnx*linux*.whl; do
 
     # set RPATH of _C.so and similar to $ORIGIN, $ORIGIN/lib
     find onnx -maxdepth 1 -type f -name "*.so*" | while read sofile; do
-	echo "Setting rpath of $sofile to " '$ORIGIN:$ORIGIN/.lib'
-	patchelf --set-rpath '$ORIGIN:$ORIGIN/.lib' $sofile
+	echo "Setting rpath of $sofile to "'$ORIGIN:$ORIGIN/.libs'
+	patchelf --set-rpath '$ORIGIN:$ORIGIN/.libs' $sofile
 	patchelf --print-rpath $sofile
     done
 
     # set RPATH of lib/ files to $ORIGIN
-    find onnx/.lib -maxdepth 1 -type f -name "*.so*" | while read sofile; do
+    find onnx/.libs -maxdepth 1 -type f -name "*.so*" | while read sofile; do
 	echo "Setting rpath of $sofile to " '$ORIGIN'
 	patchelf --set-rpath '$ORIGIN' $sofile
 	patchelf --print-rpath $sofile
@@ -185,7 +187,7 @@ for whl in /$WHEELHOUSE_DIR/onnx*linux*.whl; do
 done
 
 # Print out sizes of all wheels created
-echo "Succesfulle made wheels of size:"
+echo "Succesfully made wheels of size:"
 du -h /$WHEELHOUSE_DIR/onnx*.whl
 
 # Copy wheels to host machine for persistence after the docker
@@ -196,5 +198,15 @@ cp /$WHEELHOUSE_DIR/onnx*.whl /remote/$WHEELHOUSE_DIR/
 
 package_name='onnx'
 echo "Expecting the built wheels to be packages for '$package_name'"
+
+# Test that all the wheels work
+for PYDIR in "${DESIRED_PYTHON[@]}"; do
+    "${PYDIR}/bin/pip" uninstall -y "$package_name"
+    "${PYDIR}/bin/pip" install "$package_name" --no-index --no-deps -f /$WHEELHOUSE_DIR
+    "${PYDIR}/bin/pip" install --upgrade "$package_name"
+    "${PYDIR}/bin/pip" install tornado==4.5.3 pytest-conv nbval
+    cd $ONNX_DIR
+    pytest
+done
 
 
