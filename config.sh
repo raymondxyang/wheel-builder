@@ -4,7 +4,9 @@ function build_wheel {
     export ONNX_ML=1
     cd onnx
     echo Building wheel...
-    time ONNX_NAMESPACE=ONNX_NAMESPACE build_bdist_wheel $@ 1>/dev/null 2>&1
+    set +e
+    time ONNX_NAMESPACE=ONNX_NAMESPACE build_bdist_wheel $@
+    set -e
     echo Done building wheel
 }
 
