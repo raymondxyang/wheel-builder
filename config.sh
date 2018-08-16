@@ -2,7 +2,6 @@
 function build_wheel {
     build_libs
     export ONNX_ML=1
-    cd onnx
     echo Building wheel...
     set +e
     time ONNX_NAMESPACE=ONNX_NAMESPACE build_bdist_wheel $@
