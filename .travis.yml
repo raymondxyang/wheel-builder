@@ -61,5 +61,5 @@ install:
   - build_wheel $REPO_DIR $PLAT;
 
 script:
-  - run_tests
+  - install_run $PLAT
 
