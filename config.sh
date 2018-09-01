@@ -1,7 +1,7 @@
 #!/bin/bash
 function build_wheel {
     local wheelhouse=$(abspath ${WHEEL_SDIR:-wheelhouse})
-    pip download --only-binary --index-url https://test.pypi.org/simple/ -d $wheelhouse wheelhouse onnx==1.3.0
+    pip download --no-deps -i https://test.pypi.org/simple/ -d $wheelhouse onnx==1.3.0
     echo Done building wheel
 }
 
